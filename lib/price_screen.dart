@@ -1,6 +1,7 @@
+import 'package:bitcoin_ticker/services/coin_model.dart';
+import 'package:bitcoin_ticker/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'coin_data.dart';
 import 'dart:io' show Platform;
 
 class PriceScreen extends StatefulWidget {
@@ -9,12 +10,30 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
+  CoinModel coinModel = CoinModel();
   String selectedCurrency = 'USD';
+  int rate;
+
+  void getExchangeRate(dynamic coinData) async {
+    setState(() {
+      double exchange = coinData['rate'];
+      rate = exchange.toInt();
+      print(rate);
+
+      String currency = coinData['asset_id_quote'];
+      print(currency);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   DropdownButton<String> androidDropdown() {
     List<DropdownMenuItem<String>> dropdownItems = [];
 
-    for (String currency in currenciesList) {
+    for (String currency in kCurrenciesList) {
       var newItem = DropdownMenuItem(
         child: Text(currency),
         value: currency,
@@ -25,7 +44,9 @@ class _PriceScreenState extends State<PriceScreen> {
     return DropdownButton<String>(
       value: selectedCurrency,
       items: dropdownItems,
-      onChanged: (value) {
+      onChanged: (value) async {
+        var coinData = await coinModel.getExchange(selectedCurrency);
+        getExchangeRate(coinData);
         setState(() {
           selectedCurrency = value;
         });
@@ -36,7 +57,7 @@ class _PriceScreenState extends State<PriceScreen> {
   CupertinoPicker iOSPicker() {
     List<Text> pickerItems = [];
 
-    for (String currency in currenciesList) {
+    for (String currency in kCurrenciesList) {
       pickerItems.add(Text(currency));
     }
 
@@ -71,7 +92,7 @@ class _PriceScreenState extends State<PriceScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = ? USD',
+                  '1 BTC = $rate USD',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,

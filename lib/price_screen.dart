@@ -13,6 +13,10 @@ class _PriceScreenState extends State<PriceScreen> {
   String selectedCurrency = 'USD';
   String bitcoinValue = '?';
 
+  //TODO 7: Figure out a way of displaying a '?' on screen while we're waiting for the price data to come back. Hint: You'll need a ternary operator.
+
+  //TODO 6: Update this method to receive a Map containing the crypto:price key value pairs. Then use that map to update the CryptoCards.
+
   void getData({String currency = 'USD'}) async {
     try {
       double data = await CoinModel().getExchange(selectedCurrency);
@@ -29,6 +33,8 @@ class _PriceScreenState extends State<PriceScreen> {
     super.initState();
     getData();
   }
+
+  //TODO: For bonus points, create a method that loops through the cryptoList and generates a CryptoCard for each.
 
   DropdownButton<String> androidDropdown() {
     List<DropdownMenuItem<String>> dropdownItems = [];
@@ -80,6 +86,9 @@ class _PriceScreenState extends State<PriceScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          //TODO 1: Refactor this Padding Widget into a separate Stateless Widget called CryptoCard, so we can create 3 of them, one for each cryptocurrency.
+          //TODO 2: You'll need to able to pass the selectedCurrency, value and cryptoCurrency to the constructor of this CryptoCard Widget.
+          //TODO 3: You'll need to use a Column Widget to contain the three CryptoCards.
           Padding(
             padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
             child: Card(

@@ -13,29 +13,6 @@ class _PriceScreenState extends State<PriceScreen> {
   String selectedCurrency = 'USD';
   String bitcoinValue = '?';
 
-  //TODO 7: Figure out a way of displaying a '?' on screen while we're waiting for the price data to come back. Hint: You'll need a ternary operator.
-
-  //TODO 6: Update this method to receive a Map containing the crypto:price key value pairs. Then use that map to update the CryptoCards.
-
-  void getData({String currency = 'USD'}) async {
-    try {
-      double data = await CoinModel().getExchange(selectedCurrency);
-      setState(() {
-        bitcoinValue = data.toStringAsFixed(0);
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getData();
-  }
-
-  //TODO: For bonus points, create a method that loops through the cryptoList and generates a CryptoCard for each.
-
   DropdownButton<String> androidDropdown() {
     List<DropdownMenuItem<String>> dropdownItems = [];
 
@@ -53,7 +30,7 @@ class _PriceScreenState extends State<PriceScreen> {
       onChanged: (value) {
         setState(() {
           selectedCurrency = value;
-          getData(currency: value);
+          getData();
         });
       },
     );
@@ -70,11 +47,35 @@ class _PriceScreenState extends State<PriceScreen> {
       backgroundColor: Colors.lightBlue,
       itemExtent: 32.0,
       onSelectedItemChanged: (selectedIndex) {
-        print(selectedIndex);
+        selectedCurrency = kCurrenciesList[selectedIndex];
+        getData();
       },
       children: pickerItems,
     );
   }
+
+  //TODO 7: Figure out a way of displaying a '?' on screen while we're waiting for the price data to come back. Hint: You'll need a ternary operator.
+
+  //TODO 6: Update this method to receive a Map containing the crypto:price key value pairs. Then use that map to update the CryptoCards.
+
+  void getData() async {
+    try {
+      double data = await CoinModel().getExchange(selectedCurrency);
+      setState(() {
+        bitcoinValue = data.toStringAsFixed(0);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  //TODO: For bonus points, create a method that loops through the cryptoList and generates a CryptoCard for each.
 
   @override
   Widget build(BuildContext context) {

@@ -6,7 +6,7 @@ const coinAPIUrl = 'https://rest.coinapi.io/v1/exchangerate';
 
 class CoinModel {
   Future<dynamic> getExchange(String currency) async {
-    Map<String, String> cryptoPrices;
+    Map<String, String> cryptoPrices = {};
 
     for (String crypto in kCryptoList) {
       NetworkHelper networkHelper =

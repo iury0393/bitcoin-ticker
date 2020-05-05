@@ -11,7 +11,7 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
-  String selectedCurrency = 'USD';
+  String selectedCurrency = 'AUD';
   String bitcoinValue = '?';
   Map<String, String> coinValues = {};
   bool isWaiting = false;
@@ -100,7 +100,7 @@ class _PriceScreenState extends State<PriceScreen> {
               ),
               CryptoCard(
                 cryptoName: 'LTC',
-                bitcoinValue: isWaiting ? '?' : coinValues['LIC'],
+                bitcoinValue: isWaiting ? '?' : coinValues['LTC'],
                 selectedCurrency: selectedCurrency,
               ),
             ],

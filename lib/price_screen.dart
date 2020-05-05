@@ -13,6 +13,8 @@ class PriceScreen extends StatefulWidget {
 class _PriceScreenState extends State<PriceScreen> {
   String selectedCurrency = 'USD';
   String bitcoinValue = '?';
+  Map<String, String> coinValues = {};
+  bool isWaiting = false;
 
   DropdownButton<String> androidDropdown() {
     List<DropdownMenuItem<String>> dropdownItems = [];
@@ -55,15 +57,13 @@ class _PriceScreenState extends State<PriceScreen> {
     );
   }
 
-  //TODO 7: Figure out a way of displaying a '?' on screen while we're waiting for the price data to come back. Hint: You'll need a ternary operator.
-
-  //TODO 6: Update this method to receive a Map containing the crypto:price key value pairs. Then use that map to update the CryptoCards.
-
   void getData() async {
+    isWaiting = true;
     try {
-      double data = await CoinModel().getExchange(selectedCurrency);
+      var data = await CoinModel().getExchange(selectedCurrency);
+      isWaiting = false;
       setState(() {
-        bitcoinValue = data.toStringAsFixed(0);
+        coinValues = data;
       });
     } catch (e) {
       print(e);
@@ -75,8 +75,6 @@ class _PriceScreenState extends State<PriceScreen> {
     super.initState();
     getData();
   }
-
-  //TODO: For bonus points, create a method that loops through the cryptoList and generates a CryptoCard for each.
 
   @override
   Widget build(BuildContext context) {
@@ -91,17 +89,20 @@ class _PriceScreenState extends State<PriceScreen> {
           Column(
             children: <Widget>[
               CryptoCard(
-                  cryptoName: 'BTC',
-                  bitcoinValue: bitcoinValue,
-                  selectedCurrency: selectedCurrency),
+                cryptoName: 'BTC',
+                bitcoinValue: isWaiting ? '?' : coinValues['BTC'],
+                selectedCurrency: selectedCurrency,
+              ),
               CryptoCard(
-                  cryptoName: 'ETH',
-                  bitcoinValue: bitcoinValue,
-                  selectedCurrency: selectedCurrency),
+                cryptoName: 'ETH',
+                bitcoinValue: isWaiting ? '?' : coinValues['ETH'],
+                selectedCurrency: selectedCurrency,
+              ),
               CryptoCard(
-                  cryptoName: 'LTC',
-                  bitcoinValue: bitcoinValue,
-                  selectedCurrency: selectedCurrency),
+                cryptoName: 'LTC',
+                bitcoinValue: isWaiting ? '?' : coinValues['LIC'],
+                selectedCurrency: selectedCurrency,
+              ),
             ],
           ),
           Container(

@@ -1,7 +1,7 @@
 import 'package:bitcoin_ticker/utilities/constants.dart';
 import 'networking.dart';
 
-const apiKey = 'YOUR-API-KEY-HERE';
+const apiKey = '6E2A00B1-C020-485F-A4EB-576BE1454141';
 const coinAPIUrl = 'https://rest.coinapi.io/v1/exchangerate';
 
 class CoinModel {

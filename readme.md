@@ -2,6 +2,7 @@
 
 # Bitcoin Ticker
 
+![BitcoinTicker](Bitcoin.gif)
 
 ## Tabela de Conteúdo
 - <a href="#informações">Informações</a>
